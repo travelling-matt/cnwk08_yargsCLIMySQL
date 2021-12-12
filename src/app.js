@@ -2,13 +2,19 @@ require("./db/connection")
 
 const yargs = require("yargs");
 
-const { addMovie, listMovies, updateMovie, deleteMovie } = require("./movie/movieMethods");
+const { addMovie, listMovies, updateMovie, deleteMovie, addActor, addGenre } = require("./movie/movieMethods");
 
 const app = async (args) => {
     switch (process.argv[2]){
-        case "add":
-            addMovie({ movie_title:args.movie_title, movie_id:args.movie_id }); 
+        case "add movie":
+            addMovie({ movie_title:args.movie_title, actor:args.actor, genre:args.genre}); 
             // await addMovie({ movie_title:args.movie_title });        
+        break;
+        case "add actor":
+            addActor({ actor:args.actor });   
+        break;
+        case "add genre":
+            addGenre({ genre:args.genre });   
         break;
         case "list":
             listMovies();

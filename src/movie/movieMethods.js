@@ -1,11 +1,37 @@
-const movie = require("./movieModels");
+const { movie, actor, genre } = require("./movieModels");
+
+exports.addActor = async (movieObj) => {
+    try {
+        // actor.drop();
+        // movie.drop();
+        await actor.sync();
+        await actor.create(movieObj);
+    } catch (error) {
+      console.log(error);  
+    }
+};
+
+exports.addGenre = async (movieObj) => {
+    try {
+        // actor.drop();
+        // movie.drop();
+        // genre.drop()
+        await genre.sync();
+        await genre.create(movieObj);
+    } catch (error) {
+      console.log(error);  
+    }
+};
 
 exports.addMovie = async (movieObj) => {
     try {
+        //movie.drop();
         await movie.sync(); //creates table if doesn't aready exist
-        await movie.create(movieObj);
-        // await actor.sync();
-        // await actor.create(movieObj);
+        const actorid = await actor.findOne({where: {actor:movieObj.actor}})//find the actor and store info in actorid
+        const genreid = await genre.findOne({where: {genre:movieObj.genre}})//find the genre and store info in genreid
+        
+        await movie.create({movie_title: movieObj.movie_title, actor_id:actorid.id, genre_id:genreid.id});//create movie based on movie title supplied and link to actor through actorid
+
         // await genre.sync();
         // await genre.create(movieObj.genre);
         // await user.sync();
@@ -19,11 +45,13 @@ exports.addMovie = async (movieObj) => {
     } catch (error) {
       console.log(error);  
     }
-}
+};
 
 exports.listMovies = async () => {
     try{
         console.log(await movie.findAll({})); //find all may need () or ({})
+        console.log(await actor.findAll({}));
+        console.log(await genre.findAll({}));
     } catch (error) {
         console.log(error)
     }
