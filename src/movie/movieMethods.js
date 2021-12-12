@@ -64,9 +64,9 @@ exports.deleteMovie = async (movieObj) => {
 
 exports.updateVariable = async (movieObj) => {
     try{
-        const tbl = [movieObj.table];
-        await tbl.update({ [movieObj.change]: movieObj.newValue }, { where: { [movieObj.change]: movieObj.currentValue } });
-        console.log(await movie.findAll({}));
+        //const tbl = [movieObj.table];
+        await movie.update({ [movieObj.change]: movieObj.newValue }, { where: { [movieObj.change]: movieObj.currentValue } });
+        //console.log(await movie.findAll({}));
     } catch (error){
         console.log(error);
     }
