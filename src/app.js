@@ -4,7 +4,12 @@ const yargs = require("yargs");
 
 const { addMovie, listMovies, updateMovie, deleteMovie, addActor, addGenre, updateVariable } = require("./movie/movieMethods");
 
+const { actor, genre, movie } = require("./movie/movieModels");
+
 const app = async (args) => {
+    await actor.sync({alter:true});
+    await genre.sync({alter:true});
+    await movie.sync({alter:true});
     switch (process.argv[2]){
         case "add movie":
             addMovie({ 
@@ -46,13 +51,3 @@ const app = async (args) => {
 };
 
 app(yargs.argv);
-
-// else if (command === "update variable"){
-//     const updatePair = {
-//         currentKey: yargs.argv.currentKey,
-//         currentValue: yargs.argv.currentValue,
-//         newKey: yargs.argv.newKey,
-//         newValue: yargs.argv.newValue,
-//     };
-//     await connection(updateByVariable, updatePair);
-// }

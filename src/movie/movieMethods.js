@@ -4,8 +4,9 @@ exports.addActor = async (movieObj) => {
     try {
         // actor.drop();
         // movie.drop();
-        await actor.sync();
-        await actor.create(movieObj);
+        //await actor.sync({alter:true});
+        const actor = await actor.create(movieObj);
+        return actor;
     } catch (error) {
       console.log(error);  
     }
@@ -16,7 +17,7 @@ exports.addGenre = async (movieObj) => {
         // actor.drop();
         // movie.drop();
         // genre.drop()
-        await genre.sync();
+        //await genre.sync({alter:true});
         await genre.create(movieObj);
     } catch (error) {
       console.log(error);  
@@ -26,7 +27,7 @@ exports.addGenre = async (movieObj) => {
 exports.addMovie = async (movieObj) => {
     try {
         //movie.drop();
-        await movie.sync(); //creates table if doesn't aready exist
+        //await movie.sync({alter:true}); //creates table if doesn't aready exist
         const actorid = await actor.findOne({where: {actor:movieObj.actor}}); //find the actor and store info in actorid
         const genreid = await genre.findOne({where: {genre:movieObj.genre}}); //find the genre and store info in genreid
         await movie.create({movie_title: movieObj.movie_title, actor_id:actorid.id, genre_id:genreid.id}); //create movie based on movie title supplied and link to actor through actorid
@@ -36,17 +37,20 @@ exports.addMovie = async (movieObj) => {
 };
 
 exports.listMovies = async () => {
-    try{
-        console.log(await movie.findAll({})); //find all may need () or ({})
-        console.log(await actor.findAll({}));
-        console.log(await genre.findAll({}));
+    try {
+        //console.log(await movie.findAll({})); //find all may need () or ({})
+        for (let movies of await movie.findAll({})){
+            console.log(`title: ${movies.movie_title} actor: ${movies.actor_id} genre: ${movies.genre_id}`);
+        }
+        //console.log(await actor.findAll({}));
+        //console.log(await genre.findAll({}));
     } catch (error) {
         console.log(error)
     }
 };
 
 exports.updateMovie = async (movieObj) => {
-    try{
+    try {
         await movie.update({ 'movie_title': movieObj.newTitle }, { where: {'movie_title': movieObj.title } });
     } catch (error){
         console.log(error);
@@ -54,7 +58,7 @@ exports.updateMovie = async (movieObj) => {
 };
 
 exports.deleteMovie = async (movieObj) => {
-    try{
+    try {
         await movie.destroy( { where: { 'movie_title': movieObj.title }});
         console.log(`${movieObj.title} deleted`)
     } catch (error){
@@ -63,10 +67,17 @@ exports.deleteMovie = async (movieObj) => {
 };
 
 exports.updateVariable = async (movieObj) => {
-    try{
+    try {
         //const tbl = [movieObj.table];
-        await movie.update({ [movieObj.change]: movieObj.newValue }, { where: { [movieObj.change]: movieObj.currentValue } });
-        //console.log(await movie.findAll({}));
+        // await tbl.update(
+        //     { [movieObj.change]: movieObj.newValue }, 
+        //     { where: { [movieObj.change]: movieObj.currentValue } }
+        //     );
+        await movie.update(
+            { [movieObj.change]: movieObj.newValue }, 
+            { where: { [movieObj.change]: movieObj.currentValue } }
+            );
+        console.log(await movie.findAll({}));
     } catch (error){
         console.log(error);
     }
