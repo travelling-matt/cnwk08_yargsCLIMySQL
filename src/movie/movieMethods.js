@@ -78,10 +78,11 @@ exports.listMovies = async () => {
 
 exports.listActors = async () => {
     try {
-        const list = await actor.findAll({ include: movie});
+        const list = await actor.findAll({ 
+            include: [{model: movie, attributes: ['movie_title']}],
+            attributes: ['actor']
+        });
         console.log(JSON.stringify(list, null, 2));
-
-
     } catch(error) {
         console.log(error);
     }
@@ -89,10 +90,11 @@ exports.listActors = async () => {
 
 exports.listGenres = async () => {
     try {
-        const list = await genre.findAll({ include: movie});
+        const list = await genre.findAll({ 
+            include: [{model: movie, attributes: ['movie_title']}],
+            attributes: ['genre']
+        });
         console.log(JSON.stringify(list, null, 2));
-
-
     } catch(error) {
         console.log(error);
     }
