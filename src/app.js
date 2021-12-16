@@ -2,7 +2,7 @@ require("./db/connection")
 
 const yargs = require("yargs");
 
-const { addMovie, listMovies, updateMovie, deleteMovie, addActor, addGenre, updateVariable } = require("./movie/movieMethods");
+const { addMovie, listMovies, updateMovie, deleteMovie, addActor, addGenre, updateVariable, dropAll, dropMovies, listActors, listGenres } = require("./movie/movieMethods");
 
 const { actor, genre, movie } = require("./movie/movieModels");
 
@@ -27,9 +27,15 @@ const app = async (args) => {
         case "list":
             listMovies();
         break;
+        case "listGenres":
+            listGenres();
+        break;
+        case "listActors":
+            listActors();
+        break;
         case "update":
             updateMovie({ 
-                title:args.title, 
+                movie_title:args.title, 
                 newTitle:args.newTitle 
             });
         break;
@@ -44,6 +50,17 @@ const app = async (args) => {
                 newValue: args.newValue 
             });
         break;
+        case "dropAll":
+            dropAll();
+        break;
+        case "dropMovies":
+            dropMovies();
+            break;
+        // case "dropOne":
+        //     dropOne({
+        //         table: args.table
+        //     });
+        // break;
         default:
             console.log("Incorrect command");
         break;    
