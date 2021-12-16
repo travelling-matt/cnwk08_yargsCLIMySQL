@@ -44,7 +44,7 @@ const app = async (args) => {
         break;
         case "update variable":
             updateVariable({ 
-                //table: args.table,
+                table: args.table,
                 change: args.change,
                 currentValue: args.currentValue,
                 newValue: args.newValue 

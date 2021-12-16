@@ -43,7 +43,7 @@ exports.addMovie = async (movieObj) => {
             movie_title: movieObj.movie_title,
             actorId: actor_id.id,
             genreId: genre_id.id
-        }); //create movie based on movie_title suing actor.id and genre.id primary keys as foreign keys in the movies table.
+        }); //create movie based on movie_title using actor.id and genre.id primary keys as foreign keys in the movies table.
     } catch (error) {
         console.log(error);
     }
@@ -78,24 +78,30 @@ exports.listMovies = async () => {
 
 exports.listActors = async () => {
     try {
-        const list = await actor.findAll({ 
-            include: [{model: movie, attributes: ['movie_title']}],
+        const list = await actor.findAll({
+            include: [{
+                model: movie,
+                attributes: ['movie_title']
+            }],
             attributes: ['actor']
         });
         console.log(JSON.stringify(list, null, 2));
-    } catch(error) {
+    } catch (error) {
         console.log(error);
     }
 };
 
 exports.listGenres = async () => {
     try {
-        const list = await genre.findAll({ 
-            include: [{model: movie, attributes: ['movie_title']}],
+        const list = await genre.findAll({
+            include: [{
+                model: movie,
+                attributes: ['movie_title']
+            }],
             attributes: ['genre']
         });
         console.log(JSON.stringify(list, null, 2));
-    } catch(error) {
+    } catch (error) {
         console.log(error);
     }
 };
@@ -129,19 +135,36 @@ exports.deleteMovie = async (movieObj) => {
 
 exports.updateVariable = async (movieObj) => {
     try {
-        //const tbl = [movieObj.table];
-        // await tbl.update(
-        //     { [movieObj.change]: movieObj.newValue }, 
-        //     { where: { [movieObj.change]: movieObj.currentValue } }
-        //     );
-        await movie.update({
-            [movieObj.change]: movieObj.newValue
-        }, {
-            where: {
-                [movieObj.change]: movieObj.currentValue
-            }
-        });
-        console.log(await movie.findAll({}));
+        const tbl = movieObj.table;
+        console.log(tbl);
+        if (tbl == 'movie') {
+            await movie.update({
+                [movieObj.change]: movieObj.newValue
+            }, {
+                where: {
+                    [movieObj.change]: movieObj.currentValue
+                }
+            });
+            console.log(await movie.findAll({}));
+        } else if (tbl == 'actor') {
+            await actor.update({
+                [movieObj.change]: movieObj.newValue
+            }, {
+                where: {
+                    [movieObj.change]: movieObj.currentValue
+                }
+            });
+            console.log(await actor.findAll({}));
+        } else if (tbl == 'genre') {
+            await genre.update({
+                [movieObj.change]: movieObj.newValue
+            }, {
+                where: {
+                    [movieObj.change]: movieObj.currentValue
+                }
+            });
+            console.log(await genre.findAll({}));
+        };
     } catch (error) {
         console.log(error);
     }
