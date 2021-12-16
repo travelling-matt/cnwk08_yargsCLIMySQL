@@ -10,7 +10,8 @@ exports.addActor = async (movieObj) => {
             alter: true
         });
         const actorName = await actor.create(movieObj);
-        return actorName;
+        console.log(`added: ${movieObj.actor}`);
+        //return actorName;
     } catch (error) {
         console.log(error);
     }
@@ -19,6 +20,7 @@ exports.addActor = async (movieObj) => {
 exports.addGenre = async (movieObj) => {
     try {
         await genre.create(movieObj);
+        console.log(`added: ${movieObj.genre}`);
     } catch (error) {
         console.log(error);
     }
