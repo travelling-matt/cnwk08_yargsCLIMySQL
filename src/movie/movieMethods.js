@@ -192,17 +192,11 @@ exports.dropMovies = async () => {
     }
 };
 
-//WIP
-// exports.dropOne = async (movieObj) => {
-//     try {
-
-//         const dropTable =  movieObj.table;
-
-//         console.log(dropTable);
-//         await dropTable.drop();
-//         // await actor.drop();
-//         // await genre.drop();
-//     } catch (error) {
-//         console.log(error);
-//     }
-// };
+exports.dropGenres = async () => {
+    try {
+        await genre.drop();
+        console.log("table dropped: genres")
+    } catch (error) {
+        console.log(error);
+    }
+};

@@ -26,14 +26,14 @@ const movie = sequelize.define("movie", {
 });
 
 //creates a column in movie table 'actorid' using the actors table primary key 'id' as a foreign key
-//actor.hasMany(movie);
+actor.hasMany(movie);
 
 //creates a column in movie table 'genreid' using the genre table primary key 'id' as a foreign key
-//genre.hasMany(movie);
+genre.hasMany(movie);
 
 //create a junction table
-actor.belongsToMany(movie, { through: 'actorMovie'});
-movie.belongsToMany(actor, { through: 'actorMovie'});
+// actor.belongsToMany(movie, { through: 'actorMovie'});
+// movie.belongsToMany(actor, { through: 'actorMovie'});
 
 module.exports =  { movie, actor, genre };
 

@@ -2,7 +2,7 @@ require("./db/connection")
 
 const yargs = require("yargs");
 
-const { addMovie, listMovies, updateMovie, deleteMovie, addActor, addGenre, updateVariable, dropAll, dropMovies, listActors, listGenres } = require("./movie/movieMethods");
+const { addMovie, listMovies, updateMovie, deleteMovie, addActor, addGenre, updateVariable, dropAll, dropMovies, dropGenres, listActors, listGenres } = require("./movie/movieMethods");
 
 const { actor, genre, movie } = require("./movie/movieModels");
 
@@ -55,7 +55,10 @@ const app = async (args) => {
         break;
         case "dropMovies":
             dropMovies();
-            break;
+        break;
+        case "dropGenres":
+            dropGenres();
+        break;
         // case "dropOne":
         //     dropOne({
         //         table: args.table
